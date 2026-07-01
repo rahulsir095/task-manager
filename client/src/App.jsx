@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from './api';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import styles from './App.module.css';
@@ -14,7 +14,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get('/api/task');
+      const res = await API.get('/task');
       setTasks(res.data.data);
     } catch (err) {
       console.error("Error fetching tasks:", err);
@@ -24,7 +24,7 @@ function App() {
   // 2. Add New Task
   const handleAddTask = async (taskData) => {
     try {
-      const res = await axios.post('/api/task', taskData);
+      const res = await API.post('/task', taskData);
       setTasks((prev) => [res.data.data, ...prev]); // Prepend new task to list
     } catch (err) {
       console.error("Error creating task:", err);
@@ -34,7 +34,7 @@ function App() {
   // 3. Mark Task Done (Update Status)
   const handleUpdateStatus = async (id, status) => {
     try {
-      const res = await axios.put(`/api/task/${id}`, { status });
+      const res = await API.put(`/task/${id}`, { status });
       setTasks((prev) => prev.map(t => t._id === id ? res.data.data : t));
     } catch (err) {
       console.error("Error updating task status:", err);
@@ -44,7 +44,7 @@ function App() {
   // 4. Delete Task
   const handleDeleteTask = async (id) => {
     try {
-      await axios.delete(`/api/task/${id}`);
+      await API.delete(`/task/${id}`);
       setTasks((prev) => prev.filter(t => t._id !== id));
     } catch (err) {
       console.error("Error removing task:", err);
