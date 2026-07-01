@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://task-manager-z7kj.onrender.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''), // Strips '/api' before sending to backend
       },
